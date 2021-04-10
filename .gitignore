@@ -1,0 +1,26 @@
+# Environment deps.
+.env
+.env.backup
+
+# IDEs
+/nbproject
+/.idea
+/.vscode
+
+# Vendors
+/vendor
+/node_modules
+
+# Temp dirs & trash
+/temp
+/tmp
+coverage*
+.DS_Store
+*.cache
+
+# etc.
+/storage/*.key
+/public/hot
+/public/storage
+npm-debug.log
+yarn-error.log

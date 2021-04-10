@@ -1,0 +1,10 @@
+parameters:
+  level: max
+  paths:
+    - app
+    - database
+    - routes
+
+  ignoreErrors:
+    - message: '#\$this#'
+      path: %currentWorkingDirectory%/routes/console.php
