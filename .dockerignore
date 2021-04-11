@@ -1,0 +1,13 @@
+.dockerignore
+Makefile
+docker*.yml
+Dockerfile
+vendor
+node_modules
+*.log
+.gitignore
+.editorconfig
+.idea
+.vscode
+.github
+.git
