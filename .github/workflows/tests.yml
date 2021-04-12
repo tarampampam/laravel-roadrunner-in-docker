@@ -117,3 +117,94 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
           name: docker-image
           path: ./docker-image.tar
           retention-days: 1
+
+  docker-image-e2e:
+    name: Docker image End-to-End tests
+    runs-on: ubuntu-20.04
+    needs: [docker-image]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Create docker network
+        run: docker network create "app-network"
+
+      - name: Start postgres server
+        run: |
+          docker run --rm -d \
+            --network "app-network" \
+            --name=postgres \
+            -p "5432/tcp" \
+            -e "POSTGRES_DB=forge" \
+            -e "POSTGRES_USER=forge" \
+            -e "POSTGRES_PASSWORD=forge" \
+              postgres:13.2-alpine
+
+      - name: Start redis server
+        run: |
+          docker run --rm -d \
+            --network "app-network" \
+            --name=redis \
+            -p "6379/tcp" \
+              redis:6.0.9-alpine \
+                redis-server --requirepass redis_password
+
+      - name: Download built docker image
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-image
+          path: .artifact
+
+      - name: Prepare image to run
+        working-directory: .artifact
+        run: docker load < docker-image.tar
+
+      - name: Migrate the database
+        run: |
+          docker run --rm \
+            --network "app-network" \
+            -e "DB_HOST=postgres" \
+            -e "DB_DATABASE=forge" \
+            -e "DB_USERNAME=forge" \
+            -e "DB_PASSWORD=forge" \
+              app:local \
+                php artisan migrate --force
+
+      - name: Start application queue worker
+        run: |
+          docker run --rm -d \
+            --network "app-network" \
+            -e "REDIS_HOST=redis" \
+            -e "REDIS_PASSWORD=redis_password" \
+            -e "DB_HOST=postgres" \
+            -e "DB_DATABASE=forge" \
+            -e "DB_USERNAME=forge" \
+            -e "DB_PASSWORD=forge" \
+              app:local \
+                php artisan queue:work --memory=256 --sleep=1
+
+      - name: Start application HTTP server
+        run: |
+          docker run --rm -d \
+            --network "app-network" \
+            -p "8080:8080/tcp" \
+            -e "REDIS_HOST=redis" \
+            -e "REDIS_PASSWORD=redis_password" \
+            -e "DB_HOST=postgres" \
+            -e "DB_DATABASE=forge" \
+            -e "DB_USERNAME=forge" \
+            -e "DB_PASSWORD=forge" \
+              app:local \
+                php artisan serve --no-reload --host 0.0.0.0 --port 8080
+
+      # Image page: <https://hub.docker.com/r/postman/newman>,
+      # CLI options: <https://www.npmjs.com/package/newman#command-line-options>
+      - name: Run Newman
+        run: |
+          docker run --rm --tty \
+            --net host \
+            --volume "$(pwd):/rootfs:ro" \
+            --workdir "/rootfs" \
+              postman/newman:5.2-alpine run ./tests/postman/default.postman_collection.json \
+                --env-var "base_url=http://127.0.0.1:8081" \
+                --color on

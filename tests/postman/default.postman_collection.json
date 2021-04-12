@@ -1,0 +1,441 @@
+{
+	"info": {
+		"_postman_id": "0659cce5-8c60-4344-b8e7-a6bf0aa5b06a",
+		"name": "default",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Special routes for a tests",
+			"item": [
+				{
+					"name": "Database",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Success response', () => {",
+									"    pm.expect(pm.response.json().success).to.be.true",
+									"})",
+									"",
+									"pm.test('Duration is not too high', () => {",
+									"    const resp = pm.response",
+									"",
+									"    pm.expect(resp.json().duration_sec).to.be.below(1)",
+									"    pm.expect(resp.responseTime).to.be.below(1000)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/test/database",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"test",
+								"database"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Success response', () => {",
+									"    pm.expect(pm.response.json().success).to.be.true",
+									"})",
+									"",
+									"pm.test('Duration is not too high', () => {",
+									"    const resp = pm.response",
+									"",
+									"    pm.expect(resp.json().duration_sec).to.be.below(1)",
+									"    pm.expect(resp.responseTime).to.be.below(1000)",
+									"})",
+									"",
+									"pm.test('Content size has correct value', () => {",
+									"    pm.expect(pm.response.json().content_size).to.be.eq(34300)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "data",
+									"type": "file",
+									"src": "4Tvr2De3z/github500.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/test/upload",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"test",
+								"upload"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Queue",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Success response', () => {",
+									"    pm.expect(pm.response.json().success).to.be.true",
+									"})",
+									"",
+									"pm.test('Duration is not too high', () => {",
+									"    const resp = pm.response",
+									"",
+									"    pm.expect(resp.json().duration_sec).to.be.below(3)",
+									"    pm.expect(resp.responseTime).to.be.below(3000)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/test/queue",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"test",
+								"queue"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "URL",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Success response', () => {",
+									"    pm.expect(pm.response.json().success).to.be.true",
+									"})",
+									"",
+									"pm.test('Base url is correct', () => {",
+									"    const base_urls = pm.response.json().base_url",
+									"    const expected_url = pm.request.url.protocol + '://localhost:' + pm.request.url.port",
+									"",
+									"    pm.expect(base_urls.url_generator).to.be.eq(expected_url)",
+									"    pm.expect(base_urls.facade).to.be.eq(expected_url)",
+									"    pm.expect(base_urls.helper).to.be.eq(expected_url)",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/test/url",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"test",
+								"url"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Dump",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Success response', () => {",
+									"    pm.expect(pm.response.json().success).to.be.true",
+									"})",
+									"",
+									"pm.test('Duration is not too high', () => {",
+									"    pm.expect(pm.response.responseTime).to.be.below(300)",
+									"})",
+									"",
+									"pm.test('Parsed successfully', () => {",
+									"    const dump = pm.response.json().request",
+									"",
+									"    pm.expect(dump.url.full).to.be.eq(pm.request.url.toString())",
+									"    pm.expect(dump.method).to.be.eq(pm.request.method)",
+									"    pm.expect(dump.schema).to.be.eq(pm.request.url.protocol)",
+									"    pm.expect(dump.ajax).to.be.false",
+									"    pm.expect(dump.pjax).to.be.false",
+									"    pm.expect(dump.prefetch).to.be.false",
+									"    pm.expect(dump.secure).to.be.eq(pm.request.url.protocol !== 'http')",
+									"    pm.expect(dump.ip).to.be.a('string')",
+									"    pm.expect(dump.user_agent).to.be.eq('FooUserAgent')",
+									"    pm.expect(dump.headers['x-custom-request-header']).to.deep.equal(['foo value'])",
+									"    pm.expect(dump.headers['authorization']).to.deep.equal(['Basic ZXZpbDpsaXZl'])",
+									"    pm.expect(dump.content).to.be.eq('foo content')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"user-agent": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "live",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "evil",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "X-Custom-Request-Header",
+								"value": "foo value",
+								"type": "text"
+							},
+							{
+								"key": "User-Agent",
+								"value": "FooUserAgent",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "foo content"
+						},
+						"url": {
+							"raw": "{{base_url}}/test/dump?foo=bar",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"test",
+								"dump"
+							],
+							"query": [
+								{
+									"key": "foo",
+									"value": "bar"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Static files",
+			"item": [
+				{
+					"name": "favicon.ico",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Content-Type header is image', () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.contains('image')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/favicon.ico",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"favicon.ico"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "robots.txt",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Content-Type header is text/plain', () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.contains('text/plain')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/robots.txt",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"robots.txt"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Views",
+			"item": [
+				{
+					"name": "Welcome (index) page",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('Status code is 200', () => {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test('Content-Type header is text/html', () => {",
+									"  pm.expect(pm.response.headers.get('Content-Type')).to.contains('text/html')",
+									"})",
+									"",
+									"pm.test('Body contains required words', () => {",
+									"  const body = pm.response.text()",
+									"",
+									"  pm.expect(body).to.include('Laravel')",
+									"  pm.expect(body).to.include('News')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "1cfc6ecc-2509-43d3-a444-30b70850e3eb",
+			"key": "base_url",
+			"value": "http://localhost:8080"
+		}
+	]
+}
