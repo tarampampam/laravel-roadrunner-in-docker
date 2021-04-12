@@ -108,7 +108,7 @@ Voila! You can open <http://127.0.0.1:8080> (or <https://127.0.0.1:8443>) in you
 
 ## How to
 
-### Open shell in the application container
+### Open shell in the application container?
 
 Execute in your terminal:
 
@@ -118,7 +118,7 @@ $ make shell
 
 In this shell, you can use `composer`, `php`, and any other tools, which is installed into a docker image.
 
-### Watch logs
+### Watch logs?
 
 ```shell
 $ docker-compose logs -f
@@ -126,11 +126,11 @@ $ docker-compose logs -f
 
 All messages from all containers output will be listed here.
 
-### Install composer dependency
+### Install composer dependency?
 
 As was told above - execute `make shell` and after that `composer require %needed/package%`.
 
-### Add my own `make` command
+### Add my own `make` command?
 
 Append into `Makefile` something like:
 
