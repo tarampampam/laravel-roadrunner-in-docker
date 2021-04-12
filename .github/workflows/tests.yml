@@ -14,7 +14,7 @@ on:
 
 jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-actions>
   phpunit:
-    name: Run phpunit tests
+    name: Run PHPUnit tests
     runs-on: ubuntu-20.04
     timeout-minutes: 10
     steps:
@@ -40,5 +40,35 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
       - name: Install Composer dependencies
         run: composer update -n --prefer-dist --no-progress --ansi && composer info
 
-      - name: Run phpunit
+      - name: Run PHPUnit
         run: composer phpunit
+
+  phpstan:
+    name: Run PHPStan (Static Analysis Tool)
+    runs-on: ubuntu-20.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.setup }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer update -n --prefer-dist --no-progress --ansi && composer info
+
+      - name: Run PHPStan
+        run: composer phpstan
