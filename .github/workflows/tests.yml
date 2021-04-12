@@ -1,0 +1,228 @@
+name: tests
+
+on:
+  push:
+    branches:
+      - master
+    tags-ignore:
+      - '**'
+    paths-ignore:
+      - '**.md'
+  pull_request:
+    paths-ignore:
+      - '**.md'
+
+jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-actions>
+  gitleaks:
+    name: GitLeaks
+    runs-on: ubuntu-20.04
+    timeout-minutes: 3
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Check for GitLeaks
+        uses: zricethezav/gitleaks-action@v1.5.0 # Action page: <https://github.com/zricethezav/gitleaks-action>
+
+  phpunit:
+    name: Run PHPUnit tests
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2 # Action page: <https://github.com/shivammathur/setup-php>
+        with:
+          php-version: '8.0'
+
+      - name: Get Composer Cache Directory # Docs: <https://git.io/JfAKn#php---composer>
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies # Docs: <https://git.io/JfAKn#php---composer>
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.setup }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer update -n --prefer-dist --no-progress --ansi && composer info
+
+      - name: Run PHPUnit
+        run: composer phpunit
+
+  phpstan:
+    name: Run PHPStan (Static Analysis Tool)
+    runs-on: ubuntu-20.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP, with composer and extensions
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ matrix.setup }}-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Install Composer dependencies
+        run: composer update -n --prefer-dist --no-progress --ansi && composer info
+
+      - name: Run PHPStan
+        run: composer phpstan
+
+  docker-image:
+    name: Build docker image
+    runs-on: ubuntu-20.04
+    needs: [phpunit, phpstan]
+    timeout-minutes: 10
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build -t app:local -f ./Dockerfile .
+
+      - name: Show PHP and Laravel versions, installed in docker image
+        run: docker run --rm app:local sh -c "php -v && php artisan -V"
+
+      - name: Save docker image
+        run: docker save app:local > ./docker-image.tar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-image
+          path: ./docker-image.tar
+          retention-days: 1
+
+  docker-image-scan:
+    name: Scan docker image for vulnerabilities
+    runs-on: ubuntu-20.04
+    needs: [docker-image]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Download built docker image
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-image
+          path: .artifact
+
+      - name: Prepare image to run
+        working-directory: .artifact
+        run: docker load < docker-image.tar
+
+      - name: Scan image
+        uses: anchore/scan-action@v2 # action page: <https://github.com/anchore/scan-action>
+        with:
+          image: app:local
+          fail-build: true
+          severity-cutoff: high # negligible, low, medium, high or critical
+
+  docker-image-e2e:
+    name: Docker image End-to-End tests (using newman)
+    runs-on: ubuntu-20.04
+    needs: [docker-image]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Create docker network
+        run: docker network create "app-network"
+
+      - name: Start postgres server
+        run: |
+          docker run --rm -d \
+            --network "app-network" \
+            --name=postgres \
+            -p "5432/tcp" \
+            -e "POSTGRES_DB=forge" \
+            -e "POSTGRES_USER=forge" \
+            -e "POSTGRES_PASSWORD=forge" \
+              postgres:13.2-alpine
+
+      - name: Start redis server
+        run: |
+          docker run --rm -d \
+            --network "app-network" \
+            --name=redis \
+            -p "6379/tcp" \
+              redis:6.0.9-alpine \
+                redis-server --requirepass redis_password
+
+      - name: Download built docker image
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-image
+          path: .artifact
+
+      - name: Prepare image to run
+        working-directory: .artifact
+        run: docker load < docker-image.tar
+
+      - name: Migrate the database
+        run: |
+          docker run --rm \
+            --network "app-network" \
+            -e "DB_HOST=postgres" \
+            -e "DB_DATABASE=forge" \
+            -e "DB_USERNAME=forge" \
+            -e "DB_PASSWORD=forge" \
+              app:local \
+                php artisan migrate --force
+
+      - name: Start application queue worker
+        run: |
+          docker run --rm -d \
+            --network "app-network" \
+            -e "REDIS_HOST=redis" \
+            -e "REDIS_PASSWORD=redis_password" \
+            -e "DB_HOST=postgres" \
+            -e "DB_DATABASE=forge" \
+            -e "DB_USERNAME=forge" \
+            -e "DB_PASSWORD=forge" \
+              app:local \
+                php artisan queue:work --memory=256 --sleep=1
+
+      - name: Start application HTTP server
+        run: |
+          docker run --rm -d \
+            --network "app-network" \
+            -p "8080:8080/tcp" \
+            -e "REDIS_HOST=redis" \
+            -e "REDIS_PASSWORD=redis_password" \
+            -e "DB_HOST=postgres" \
+            -e "DB_DATABASE=forge" \
+            -e "DB_USERNAME=forge" \
+            -e "DB_PASSWORD=forge" \
+              app:local \
+                php artisan serve --no-reload --host 0.0.0.0 --port 8080
+
+      # Image page: <https://hub.docker.com/r/postman/newman>,
+      # CLI options: <https://www.npmjs.com/package/newman#command-line-options>
+      - name: Run Newman
+        run: |
+          docker run --rm --tty \
+            --net host \
+            --volume "$(pwd):/rootfs:ro" \
+            --workdir "/rootfs/tests/postman" \
+              postman/newman:5.2-alpine run ./default.postman_collection.json \
+                --env-var "base_url=http://localhost:8080" \
+                --color on
