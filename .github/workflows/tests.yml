@@ -101,13 +101,6 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
       - name: Show PHP and Laravel versions, installed in docker image
         run: docker run --rm app:local sh -c "php -v && php artisan -V"
 
-      - name: Scan image
-        uses: anchore/scan-action@v2 # action page: <https://github.com/anchore/scan-action>
-        with:
-          image: app:local
-          fail-build: true
-          severity-cutoff: high # negligible, low, medium, high or critical
-
       - name: Save docker image
         run: docker save app:local > ./docker-image.tar
 
@@ -118,8 +111,33 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
           path: ./docker-image.tar
           retention-days: 1
 
+  docker-image-scan:
+    name: Scan docker image for vulnerabilities
+    runs-on: ubuntu-20.04
+    needs: [docker-image]
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Download built docker image
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-image
+          path: .artifact
+
+      - name: Prepare image to run
+        working-directory: .artifact
+        run: docker load < docker-image.tar
+
+      - name: Scan image
+        uses: anchore/scan-action@v2 # action page: <https://github.com/anchore/scan-action>
+        with:
+          image: app:local
+          fail-build: true
+          severity-cutoff: high # negligible, low, medium, high or critical
+
   docker-image-e2e:
-    name: Docker image End-to-End tests
+    name: Docker image End-to-End tests (using newman)
     runs-on: ubuntu-20.04
     needs: [docker-image]
     steps:
