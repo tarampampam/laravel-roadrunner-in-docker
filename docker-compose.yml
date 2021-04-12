@@ -41,7 +41,7 @@ services:
       - 8443:8443/tcp
     healthcheck:
       test: ['CMD-SHELL', 'wget --spider -q "http://127.0.0.1:8082/health?plugin=http&plugin=rpc"']
-      interval: 5s
+      interval: 2s
       timeout: 2s
 
   queue:
@@ -64,7 +64,7 @@ services:
       - 5432/tcp
     healthcheck: # Healthcheck docs: <https://docs.docker.com/engine/reference/builder/#healthcheck>
       test: ['CMD-SHELL', 'pg_isready -U forge']
-      interval: 5s
+      interval: 2s
       timeout: 5s
 
   redis:
@@ -76,5 +76,5 @@ services:
       - 6379/tcp
     healthcheck:
       test: ['CMD-SHELL', 'redis-cli ping']
-      interval: 5s
+      interval: 2s
       timeout: 5s
