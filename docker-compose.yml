@@ -33,9 +33,10 @@ services:
 
   web:
     <<: *app
-    command: php /app/artisan serve --no-reload --host 0.0.0.0 --port 8080
+    command: rr serve -c .rr.local.yaml
     ports:
       - 8080:8080/tcp
+      - 8443:8443/tcp
 
   queue:
     <<: *app

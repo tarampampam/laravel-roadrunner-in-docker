@@ -137,9 +137,13 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
           severity-cutoff: high # negligible, low, medium, high or critical
 
   docker-image-e2e:
-    name: Docker image End-to-End tests (using newman)
+    name: Docker image End-to-End tests (SSL ${{ matrix.ssl }})
     runs-on: ubuntu-20.04
     needs: [docker-image]
+    strategy:
+      fail-fast: false
+      matrix:
+        ssl: [on, off]
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -206,6 +210,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
           docker run --rm -d \
             --network "app-network" \
             -p "8080:8080/tcp" \
+            -p "8443:8443/tcp" \
             -e "REDIS_HOST=redis" \
             -e "REDIS_PASSWORD=redis_password" \
             -e "DB_HOST=postgres" \
@@ -213,7 +218,11 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
             -e "DB_USERNAME=forge" \
             -e "DB_PASSWORD=forge" \
               app:local \
-                php artisan serve --no-reload --host 0.0.0.0 --port 8080
+                rr serve -c .rr.yaml
+
+      - name: Generate values for tests running
+        id: values
+        run: echo "::set-output name=base_url::`[ "${{ matrix.ssl }}" = "on" ] && echo "https://localhost:8443" || echo "http://localhost:8080"`"
 
       # Image page: <https://hub.docker.com/r/postman/newman>,
       # CLI options: <https://www.npmjs.com/package/newman#command-line-options>
@@ -224,5 +233,6 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
             --volume "$(pwd):/rootfs:ro" \
             --workdir "/rootfs/tests/postman" \
               postman/newman:5.2-alpine run ./default.postman_collection.json \
-                --env-var "base_url=http://localhost:8080" \
+                --env-var "base_url=${{ steps.values.outputs.base_url }}" \
+                --insecure \
                 --color on

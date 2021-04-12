@@ -17,6 +17,9 @@ FROM --platform=linux/amd64 php:8.0.3-alpine as runtime
 # install composer, image page: <https://hub.docker.com/_/composer>
 COPY --from=composer:2.0.12 /usr/bin/composer /usr/bin/composer
 
+# Image page: <https://hub.docker.com/r/spiralscout/roadrunner>
+COPY --from=spiralscout/roadrunner:2.0.4 /usr/bin/rr /usr/bin/rr
+
 ENV COMPOSER_HOME="/tmp/composer"
 
 RUN set -x \
@@ -53,6 +56,7 @@ RUN set -x \
         -addext "subjectAltName=DNS:mydomain.com" \
         -keyout /etc/ssl/private/selfsigned.key \
         -out /etc/ssl/certs/selfsigned.crt \
+    && chmod 644 /etc/ssl/private/selfsigned.key \
     # make clean up
     && docker-php-source delete \
     && apk del .build-deps \
@@ -71,9 +75,10 @@ RUN set -x \
         --uid "10001" \
         --gecos "" \
         "appuser" \
-    # create directory for application sources
-    && mkdir /app \
-    && chown -R appuser:appuser /app
+    # create directory for application sources and roadrunner unix socket
+    && mkdir /app /var/run/rr \
+    && chown -R appuser:appuser /app /var/run/rr \
+    && chmod -R 777 /var/run/rr
 
 # use an unprivileged user by default
 USER appuser:appuser
