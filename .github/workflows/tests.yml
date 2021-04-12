@@ -204,7 +204,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
           docker run --rm --tty \
             --net host \
             --volume "$(pwd):/rootfs:ro" \
-            --workdir "/rootfs" \
-              postman/newman:5.2-alpine run ./tests/postman/default.postman_collection.json \
+            --workdir "/rootfs/tests/postman" \
+              postman/newman:5.2-alpine run ./default.postman_collection.json \
                 --env-var "base_url=http://127.0.0.1:8080" \
                 --color on
