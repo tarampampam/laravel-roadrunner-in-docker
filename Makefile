@@ -20,7 +20,7 @@ shell: ## Start shell into app container
 	docker-compose run $(DC_RUN_ARGS) app sh
 
 init: ## Make full application initialization
-	docker-compose run $(DC_RUN_ARGS) app sh -c "until php ./artisan migrate --force --seed; do sleep 1; done"
+	docker-compose run $(DC_RUN_ARGS) app php ./artisan migrate --force --seed
 	-docker-compose run $(DC_RUN_ARGS) --no-deps app php ./artisan storage:link
 
 test: ## Execute app tests
