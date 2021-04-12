@@ -34,7 +34,7 @@ test-cover: ## Execute app tests with coverage
 
 up: ## Create and start containers
 	APP_UID=$(shell id -u) APP_GID=$(shell id -g) docker-compose up --detach --remove-orphans --scale queue=2 web queue cron
-	@printf "\n   \e[30;42m %s \033[0m\n\n" 'Navigate your browser to ⇒ http://127.0.0.1:8080';
+	@printf "\n   \e[30;42m %s \033[0m\n\n" 'Navigate your browser to ⇒ http://127.0.0.1:8080 or https://127.0.0.1:8443';
 
 down: ## Stop containers
 	docker-compose down
