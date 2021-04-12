@@ -213,7 +213,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
             -e "DB_USERNAME=forge" \
             -e "DB_PASSWORD=forge" \
               app:local \
-                php artisan serve --no-reload --host 0.0.0.0 --port 8080
+                rr serve -c .rr.yaml
 
       # Image page: <https://hub.docker.com/r/postman/newman>,
       # CLI options: <https://www.npmjs.com/package/newman#command-line-options>
