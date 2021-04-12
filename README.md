@@ -10,7 +10,7 @@ This repository contains an example of [Laravel][laravel] _(PHP Framework)_ appl
 - [PostgreSQL][postgresql] as a **database** and [Redis][redis] as a **cache** & **queue** driver already configured
 - One `Dockerfile` for local application development and running on production
 - All used images are based on [Alpine][alpine] (lightweight and security-oriented linux distributive)
-- Lightweight final docker image
+- Lightweight final docker image _(compressed size ~65 Mb, ~16 downloadable layers)_
 - **Unprivileged** user is used by default
 - Easy to update PHP and dependencies
 - Ready to run Laravel [task scheduling][laravel_scheduling], [queue workers][laravel_queue], and many others on your choice
