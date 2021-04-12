@@ -2,8 +2,6 @@
   <img src="https://habrastorage.org/webt/zm/nm/pr/zmnmprsvbuxifiuo2dcdb6z1vle.png" alt="Logo" />
 </p>
 
-_TODO BADGES_
-
 This repository contains an example of [Laravel][laravel] _(PHP Framework)_ application that runs in a docker container with [RoadRunner][roadrunner] _(high-performance PHP application server)_ as a web server.
 
 ## :fire: Features list
@@ -33,6 +31,8 @@ This repository contains an example of [Laravel][laravel] _(PHP Framework)_ appl
 If you want to integrate Docker + RoadRunner into an **existing** application, take a look for [pull requests with the special label][pr_step_by_step] in the current repository - you can repeat these steps.
 
 Another way is repository cloning, forking or [usage this repository as a template][use_repo_template] for your application.
+
+> Don't forget to remove `TestJob`, `TestController`, and routes, that are declared for this controller in the `routes/web.php` file - it used for internal application working tests.
 
 ## First steps
 
