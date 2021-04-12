@@ -13,10 +13,23 @@ on:
       - '**.md'
 
 jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-actions>
+  gitleaks:
+    name: Gitleaks
+    runs-on: ubuntu-20.04
+    timeout-minutes: 3
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Check for GitLeaks
+        uses: zricethezav/gitleaks-action@v1.5.0 # Action page: <https://github.com/zricethezav/gitleaks-action>
+
   phpunit:
     name: Run PHPUnit tests
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -46,7 +59,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
   phpstan:
     name: Run PHPStan (Static Analysis Tool)
     runs-on: ubuntu-20.04
-    timeout-minutes: 10
+    timeout-minutes: 5
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -72,3 +85,35 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
 
       - name: Run PHPStan
         run: composer phpstan
+
+  docker-image:
+    name: Build docker image
+    runs-on: ubuntu-20.04
+    needs: [phpunit, phpstan]
+    timeout-minutes: 10
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build -t app:local -f ./Dockerfile .
+
+      - name: Show PHP and Laravel versions, installed in docker image
+        run: docker run --rm app:local sh -c "php -v && php artisan -V"
+
+      - name: Scan image
+        uses: anchore/scan-action@v2 # action page: <https://github.com/anchore/scan-action>
+        with:
+          image: app:local
+          fail-build: true
+          severity-cutoff: low # negligible, low, medium, high or critical
+
+      - name: Save docker image
+        run: docker save app:local > ./docker-image.tar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-image
+          path: ./docker-image.tar
+          retention-days: 1
