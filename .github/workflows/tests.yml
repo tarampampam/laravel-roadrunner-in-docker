@@ -21,24 +21,8 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
       - name: Check out code
         uses: actions/checkout@v2
 
-      - name: Setup PHP, with composer and extensions
-        uses: shivammathur/setup-php@v2 # Action page: <https://github.com/shivammathur/setup-php>
-        with:
-          php-version: '8.0'
-
-      - name: Get Composer Cache Directory # Docs: <https://git.io/JfAKn#php---composer>
-        id: composer-cache
-        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: Cache dependencies # Docs: <https://git.io/JfAKn#php---composer>
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.composer-cache.outputs.dir }}
-          key: ${{ runner.os }}-composer-${{ matrix.setup }}-${{ hashFiles('**/composer.json') }}
-          restore-keys: ${{ runner.os }}-composer-
-
-      - name: Install Composer dependencies
-        run: composer update -n --prefer-dist --no-progress --ansi && composer info
+      - name: Setup PHP with all Dependencies
+        uses: ./.github/actions/setup-php-with-dependencies
 
       - name: Run PHPUnit
         run: composer phpunit
