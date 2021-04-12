@@ -14,7 +14,7 @@ on:
 
 jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-actions>
   gitleaks:
-    name: Gitleaks
+    name: GitLeaks
     runs-on: ubuntu-20.04
     timeout-minutes: 3
     steps:
@@ -106,7 +106,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         with:
           image: app:local
           fail-build: true
-          severity-cutoff: low # negligible, low, medium, high or critical
+          severity-cutoff: high # negligible, low, medium, high or critical
 
       - name: Save docker image
         run: docker save app:local > ./docker-image.tar
