@@ -49,10 +49,10 @@ http:
   # Default: 0
   max_request_size: 256
 
-  # Middlewares for the http plugin, order is important. Allowed values is: "headers", "static", "gzip".
+  # Middlewares for the http plugin, order is important. Allowed values is: "headers", "gzip".
   #
   # Default value: []
-  middleware: ["headers", "static", "gzip"]
+  middleware: ["headers", "gzip"]
 
   # File uploading settings.
   uploads:
@@ -74,7 +74,7 @@ http:
     response:
       X-Powered-By: "RoadRunner"
 
-  # Settings for "static" middleware (docs: https://roadrunner.dev/docs/http-static).
+  # Settings for serving static content (docs: https://roadrunner.dev/docs/http-static).
   static:
     # Path to the directory with static assets.
     #
