@@ -159,6 +159,10 @@ Read more about makefiles [here](https://www.gnu.org/software/make/manual/html_n
 
 If you find any package errors, please, [make an issue][link_create_issue] in current repository.
 
+## License
+
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
 [laravel]:https://laravel.com/
 [roadrunner]:https://roadrunner.dev/
 [postgresql]:https://www.postgresql.org/
