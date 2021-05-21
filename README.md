@@ -28,11 +28,11 @@ This repository contains an example of [Laravel][laravel] _(PHP Framework)_ appl
 
 # How to use
 
-If you want to integrate Docker + RoadRunner into an **existing** application, take a look for [pull requests with the special label][pr_step_by_step] in the current repository - you can repeat these steps.
+If you want to integrate Docker + RoadRunner into an **existing** application, take a look at [pull requests with the special label][pr_step_by_step] in the current repository - you can repeat these steps.
 
 Another way is repository cloning, forking or [usage this repository as a template][use_repo_template] for your application.
 
-> Don't forget to remove `TestJob`, `TestController`, and routes, that are declared for this controller in the `routes/web.php` file - it used for internal application working tests.
+> Don't forget to remove `TestJob`, `TestController`, and routes, that are declared for this controller in the `routes/web.php` file - it is used for internal application working tests.
 
 ## First steps
 
@@ -108,7 +108,7 @@ Voila! You can open <http://127.0.0.1:8080> (or <https://127.0.0.1:8443>) in you
 
 ## How to
 
-### Open shell in the application container?
+### Open the shell in the application container?
 
 Execute in your terminal:
 
@@ -116,7 +116,7 @@ Execute in your terminal:
 $ make shell
 ```
 
-In this shell, you can use `composer`, `php`, and any other tools, which is installed into a docker image.
+In this shell, you can use `composer`, `php`, and any other tools, which are installed into a docker image.
 
 ### Watch logs?
 
@@ -128,7 +128,7 @@ All messages from all containers output will be listed here.
 
 ### Install composer dependency?
 
-As was told above - execute `make shell` and after that `composer require %needed/package%`.
+As it was told above - execute `make shell` and after that `composer require %needed/package%`.
 
 ### Add my own `make` command?
 
