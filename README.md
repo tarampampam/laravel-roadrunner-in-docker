@@ -152,6 +152,20 @@ Read more about makefiles [here](https://www.gnu.org/software/make/manual/html_n
 - <https://habr.com/ru/post/461687/> <sup>ru</sup>
 - <https://pythonspeed.com/articles/faster-multi-stage-builds/>
 
+## Troubleshooting
+
+### MacOS Unprivileged User
+
+This repo was created for Linux users. It maps `/etc/passwd` in `docker-compose.yml` to [set the current
+host user for the Docker containers](https://faun.pub/set-current-host-user-for-docker-container-4e521cef9ffc).
+
+MacOS doesn't use `/etc/passwd` unless it's operating in single-user mode. Instead, it
+uses a system called [Open Directory](https://superuser.com/questions/191330/users-dont-appear-in-etc-passwd-on-mac-os-x/191333#191333).
+
+If you  do `make shell; whoami` and get user errors, then you can fix by running `./scripts/fix_mac_user.sh`. This
+script will create a `mac_passwd` file that plays nice with `/etc/passwd` used by `docker-compose.yml` under the volumes
+mapping section.
+
 ## Support
 
 [![Issues][badge_issues]][link_issues]
