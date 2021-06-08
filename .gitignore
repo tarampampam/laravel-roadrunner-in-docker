@@ -14,8 +14,6 @@
 # Temp dirs & trash
 /temp
 /tmp
-/docker-compose.yml.backup
-/mac_passwd
 coverage*
 .DS_Store
 *.cache
