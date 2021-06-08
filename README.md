@@ -156,15 +156,21 @@ Read more about makefiles [here](https://www.gnu.org/software/make/manual/html_n
 
 ### MacOS Unprivileged User
 
-This repo was created for Linux users. It maps `/etc/passwd` in `docker-compose.yml` to [set the current
-host user for the Docker containers](https://faun.pub/set-current-host-user-for-docker-container-4e521cef9ffc).
+This repo was created for Linux users. It maps `/etc/passwd` in `docker-compose.yml` to [set the current host user for the Docker containers](https://faun.pub/set-current-host-user-for-docker-container-4e521cef9ffc).
 
-MacOS doesn't use `/etc/passwd` unless it's operating in single-user mode. Instead, it
-uses a system called [Open Directory](https://superuser.com/questions/191330/users-dont-appear-in-etc-passwd-on-mac-os-x/191333#191333).
+MacOS doesn't use `/etc/passwd` unless it's operating in single-user mode. Instead, it uses a system called [Open Directory](https://superuser.com/questions/191330/users-dont-appear-in-etc-passwd-on-mac-os-x/191333#191333).
 
-If you  do `make shell; whoami` and get user errors, then you can fix by running `./scripts/fix_mac_user.sh`. This
-script will create a `mac_passwd` file that plays nice with `/etc/passwd` used by `docker-compose.yml` under the volumes
-mapping section.
+If you do `make shell; whoami` and get user errors, then you can fix by running `./scripts/fix_mac_user.sh`. This script will create a `mac_passwd` file that plays nice with `/etc/passwd` used by `docker-compose.yml` under the volumes mapping section.
+
+```bash
+#!/bin/sh
+// File: ./scripts/fix_mac_user.sh
+
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+cd $SCRIPT_DIR/../
+echo "$USER:x:$(id -u):$(id -g):ns,,,:$HOME:/bin/bash" > mac_passwd
+sed -i.backup 's~/etc/passwd:/etc/passwd:ro~./mac_passwd:/etc/passwd:ro~' docker-compose.yml
+```
 
 ## Support
 
