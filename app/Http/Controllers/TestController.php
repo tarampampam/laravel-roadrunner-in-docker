@@ -174,11 +174,11 @@ class TestController extends \Illuminate\Routing\Controller
         $file = $request->file('data');
 
         if ($file instanceof UploadedFile) {
-            $file->move(storage_path(), $file_name = Str::random(6) . '_' . $file->getClientOriginalName());
+            $file->move(storage_path('app'), $file_name = Str::random(6) . '_' . $file->getClientOriginalName());
 
             return new JsonResponse([
                 'success'      => true,
-                'content_size' => \strlen($fs->get($file_name)),
+                'content_size' => $fs->size($file_name),
                 'duration_sec' => \microtime(true) - $started_at,
                 'memory_bytes' => \memory_get_usage() - $memory_bytes,
             ]);
