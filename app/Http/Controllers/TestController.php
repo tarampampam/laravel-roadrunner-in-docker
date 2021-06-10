@@ -174,7 +174,7 @@ class TestController extends \Illuminate\Routing\Controller
         $file = $request->file('data');
 
         if ($file instanceof UploadedFile) {
-            $fs->put($file_name = Str::random(6) . '_' . $file->getClientOriginalName(), $file->getContent());
+            $file->move(storage_path(), $file_name = Str::random(6) . '_' . $file->getClientOriginalName());
 
             return new JsonResponse([
                 'success'      => true,

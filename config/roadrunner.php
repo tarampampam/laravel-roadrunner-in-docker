@@ -85,7 +85,7 @@ return [
 
     'clear' => [
         ...Defaults::servicesToClear(),
-        'auth', // is not required for Laravel >= v8.35
+        // 'auth', // is not required for Laravel >= v8.35
     ],
 
     /*
@@ -101,7 +101,7 @@ return [
 
     'reset_providers' => [
         ...Defaults::providersToReset(),
-        Illuminate\Auth\AuthServiceProvider::class,             // is not required for Laravel >= v8.35
-        Illuminate\Pagination\PaginationServiceProvider::class, // is not required for Laravel >= v8.35
+        // Illuminate\Auth\AuthServiceProvider::class,             // is not required for Laravel >= v8.35
+        // Illuminate\Pagination\PaginationServiceProvider::class, // is not required for Laravel >= v8.35
     ],
 ];
