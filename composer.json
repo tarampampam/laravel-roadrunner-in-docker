@@ -11,7 +11,7 @@
         "guzzlehttp/guzzle": "^7.3.0",
         "laravel/framework": "^8.44",
         "laravel/tinker": "^2.6",
-        "spiral/roadrunner-laravel": "dev-fix-fn-move_uploaded_file"
+        "spiral/roadrunner-laravel": "^5.0"
     },
     "require-dev": {
         "facade/ignition": "^2.9",
