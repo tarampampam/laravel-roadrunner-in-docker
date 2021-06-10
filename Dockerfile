@@ -12,12 +12,12 @@
 #        && NODE_ENV="production" yarn run prod
 
 # Build application runtime, image page: <https://hub.docker.com/_/php>
-FROM --platform=linux/amd64 php:8.0.6-alpine as runtime
+FROM --platform=linux/amd64 php:8.0.7-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
-COPY --from=composer:2.0.13 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1.2 /usr/bin/composer /usr/bin/composer
 
-# Image page: <https://hub.docker.com/r/spiralscout/roadrunner>
+# install roadrunner, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
 COPY --from=spiralscout/roadrunner:2.2.1 /usr/bin/rr /usr/bin/rr
 
 ENV COMPOSER_HOME="/tmp/composer"

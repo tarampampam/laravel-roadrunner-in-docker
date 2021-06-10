@@ -16,7 +16,7 @@ server:
   # Worker starting command, with any required arguments.
   #
   # This option is required.
-  command: "php ./vendor/bin/rr-worker start --relay-dsn unix:///var/run/rr/rpc.sock"
+  command: "php ./vendor/bin/rr-worker start --relay-dsn unix:///var/run/rr/rr-relay.sock"
 
   ## Environment variables for the worker processes.
   ##
@@ -25,10 +25,10 @@ server:
   #  - SOME_KEY: "SOME_VALUE"
   #  - SOME_KEY2: "SOME_VALUE2"
 
-  # Worker relay can be: "pipes", TCP (eg.: tcp://127.0.0.1:6001), or socket (eg.: unix:///var/run/rr.sock).
+  # Worker relay can be: "pipes", TCP (eg.: tcp://127.0.0.1:6001), or socket (eg.: unix:///var/run/rr-relay.sock).
   #
   # Default: "pipes"
-  relay: "unix:///var/run/rr/rpc.sock"
+  relay: "unix:///var/run/rr/rr-relay.sock"
 
   # Timeout for relay connection establishing (only for socket and TCP port relay).
   #
