@@ -2,6 +2,13 @@
 Makefile
 docker*.yml
 Dockerfile
+bootstrap/cache/*
+storage/logs/*
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/testing/*
+storage/framework/views/*
+storage/*.cache
 vendor
 node_modules
 *.log
