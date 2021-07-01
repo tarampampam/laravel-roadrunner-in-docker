@@ -18,7 +18,7 @@
         "fakerphp/faker": "^1.14.1",
         "laravel/sail": "^1.8.3",
         "mockery/mockery": "^1.4.3",
-        "nunomaduro/collision": "^5.4",
+        "nunomaduro/collision": "^5.5",
         "phpstan/phpstan": "^0.12.90",
         "phpunit/phpunit": "^9.5.6"
     },
