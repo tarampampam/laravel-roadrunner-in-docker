@@ -20,7 +20,7 @@
         "mockery/mockery": "^1.4.3",
         "nunomaduro/collision": "^5.4",
         "phpstan/phpstan": "^0.12.90",
-        "phpunit/phpunit": "^9.5.4"
+        "phpunit/phpunit": "^9.5.6"
     },
     "autoload": {
         "psr-4": {
