@@ -12,7 +12,7 @@
 #        && NODE_ENV="production" yarn run prod
 
 # Build application runtime, image page: <https://hub.docker.com/_/php>
-FROM --platform=linux/amd64 php:8.0.7-alpine as runtime
+FROM --platform=linux/amd64 php:8.1.0alpha2-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
 COPY --from=composer:2.1.2 /usr/bin/composer /usr/bin/composer
