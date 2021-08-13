@@ -11,7 +11,7 @@
 #        && yarn install --frozen-lockfile --no-progress --non-interactive \
 #        && NODE_ENV="production" yarn run prod
 
-# Build application runtime, image page: <https://hub.docker.com/_/php>
+# build application runtime, image page: <https://hub.docker.com/_/php>
 FROM --platform=linux/amd64 php:8.0.9-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
