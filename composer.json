@@ -17,7 +17,7 @@
         "facade/ignition": "^2.12",
         "fakerphp/faker": "^1.15.0",
         "laravel/sail": "^1.10.2",
-        "mockery/mockery": "^1.4.3",
+        "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
         "phpstan/phpstan": "^0.12.99",
         "phpunit/phpunit": "^9.5.9"
