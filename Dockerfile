@@ -23,6 +23,8 @@ COPY --from=spiralscout/roadrunner:2.4.2 /usr/bin/rr /usr/bin/rr
 ENV COMPOSER_HOME="/tmp/composer"
 
 RUN set -x \
+    # fix for CVE-2021-22947
+    && apk add --latest --no-cache curl \
     # install permanent dependencies
     && apk add --no-cache \
         postgresql-libs \
