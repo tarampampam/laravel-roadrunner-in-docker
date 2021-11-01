@@ -15,7 +15,7 @@
 FROM --platform=linux/amd64 php:8.0.12-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
-COPY --from=composer:2.1.8 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1.9 /usr/bin/composer /usr/bin/composer
 
 # install roadrunner, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
 COPY --from=spiralscout/roadrunner:2.4.2 /usr/bin/rr /usr/bin/rr
