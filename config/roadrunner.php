@@ -3,6 +3,7 @@
 use Spiral\RoadRunnerLaravel\Events;
 use Spiral\RoadRunnerLaravel\Defaults;
 use Spiral\RoadRunnerLaravel\Listeners;
+use Spiral\RoadRunner\Environment\Mode;
 
 return [
     /*
@@ -36,9 +37,6 @@ return [
 
         Events\BeforeLoopIterationEvent::class => [
             ...Defaults::beforeLoopIteration(),
-            // Listeners\ResetLaravelScoutListener::class,     // for <https://github.com/laravel/scout>
-            // Listeners\ResetLaravelSocialiteListener::class, // for <https://github.com/laravel/socialite>
-            // Listeners\ResetInertiaListener::class,          // for <https://github.com/inertiajs/inertia-laravel>
         ],
 
         Events\BeforeRequestHandlingEvent::class => [
@@ -103,5 +101,21 @@ return [
         ...Defaults::providersToReset(),
         // Illuminate\Auth\AuthServiceProvider::class,             // is not required for Laravel >= v8.35
         // Illuminate\Pagination\PaginationServiceProvider::class, // is not required for Laravel >= v8.35
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Worker Classes
+    |--------------------------------------------------------------------------
+    |
+    | Here you can override the worker class for processing different kinds of
+    | jobs, that received from the RoadRunner daemon. The key is a worker mode.
+    |
+    */
+
+    'workers' => [
+        Mode::MODE_HTTP => \Spiral\RoadRunnerLaravel\Worker::class,
+        // Mode::MODE_JOBS => ...,
+        // Mode::MODE_TEMPORAL => ...,
     ],
 ];
