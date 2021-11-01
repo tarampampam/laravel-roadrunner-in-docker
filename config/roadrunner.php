@@ -3,6 +3,7 @@
 use Spiral\RoadRunnerLaravel\Events;
 use Spiral\RoadRunnerLaravel\Defaults;
 use Spiral\RoadRunnerLaravel\Listeners;
+use Spiral\RoadRunner\Environment\Mode;
 
 return [
     /*
