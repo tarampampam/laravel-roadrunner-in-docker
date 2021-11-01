@@ -14,7 +14,7 @@
         "spiral/roadrunner-laravel": "^5.3"
     },
     "require-dev": {
-        "facade/ignition": "^2.13",
+        "facade/ignition": "^2.16",
         "fakerphp/faker": "^1.16.0",
         "laravel/sail": "^1.12.2",
         "mockery/mockery": "^1.4.4",
