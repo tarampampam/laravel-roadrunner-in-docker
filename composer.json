@@ -9,14 +9,14 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4.0",
-        "laravel/framework": "^8.68",
+        "laravel/framework": "^8.70",
         "laravel/tinker": "^2.6",
-        "spiral/roadrunner-laravel": "^5.4"
+        "spiral/roadrunner-laravel": "^5.5"
     },
     "require-dev": {
         "facade/ignition": "^2.16",
         "fakerphp/faker": "^1.16.0",
-        "laravel/sail": "^1.12.2",
+        "laravel/sail": "^1.12.4",
         "mockery/mockery": "^1.4.4",
         "nunomaduro/collision": "^5.10",
         "phpstan/phpstan": "^1.1.2",
