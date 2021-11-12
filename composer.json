@@ -11,7 +11,7 @@
         "guzzlehttp/guzzle": "^7.4.0",
         "laravel/framework": "^8.68",
         "laravel/tinker": "^2.6",
-        "spiral/roadrunner-laravel": "^5.4"
+        "spiral/roadrunner-laravel": "^5.5"
     },
     "require-dev": {
         "facade/ignition": "^2.16",
