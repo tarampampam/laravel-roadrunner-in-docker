@@ -9,7 +9,7 @@
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4.0",
-        "laravel/framework": "^8.68",
+        "laravel/framework": "^8.70",
         "laravel/tinker": "^2.6",
         "spiral/roadrunner-laravel": "^5.4"
     },
