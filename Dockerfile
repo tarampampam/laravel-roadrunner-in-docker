@@ -18,7 +18,7 @@ FROM php:8.1.0-alpine as runtime
 COPY --from=composer:2.1.14 /usr/bin/composer /usr/bin/composer
 
 # install roadrunner, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
-COPY --from=spiralscout/roadrunner:2.6.0 /usr/bin/rr /usr/bin/rr
+COPY --from=spiralscout/roadrunner:2.6.1 /usr/bin/rr /usr/bin/rr
 
 ENV COMPOSER_HOME="/tmp/composer"
 
