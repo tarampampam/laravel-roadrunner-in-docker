@@ -168,7 +168,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
             --network "app-network" \
             --name=redis \
             -p "6379/tcp" \
-              redis:6.0.9-alpine \
+              redis:6.2.6-alpine \
                 redis-server --requirepass redis_password
 
       - name: Download built docker image

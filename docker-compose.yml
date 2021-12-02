@@ -68,7 +68,7 @@ services:
       timeout: 5s
 
   redis:
-    image: redis:6.0.9-alpine # Image page: <https://hub.docker.com/_/redis>
+    image: redis:6.2.6-alpine # Image page: <https://hub.docker.com/_/redis>
     command: redis-server --requirepass redis_password
     volumes:
       - redis-data:/data:rw
