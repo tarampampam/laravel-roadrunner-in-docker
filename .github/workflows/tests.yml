@@ -37,7 +37,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 # Action page: <https://github.com/shivammathur/setup-php>
         with:
-          php-version: '8.0'
+          php-version: '8.1'
 
       - name: Get Composer Cache Directory # Docs: <https://git.io/JfAKn#php---composer>
         id: composer-cache
@@ -67,7 +67,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.0'
+          php-version: '8.1'
 
       - name: Get Composer Cache Directory
         id: composer-cache
@@ -160,7 +160,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
             -e "POSTGRES_DB=forge" \
             -e "POSTGRES_USER=forge" \
             -e "POSTGRES_PASSWORD=forge" \
-              postgres:13.2-alpine
+              postgres:14.1-alpine
 
       - name: Start redis server
         run: |
@@ -168,7 +168,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
             --network "app-network" \
             --name=redis \
             -p "6379/tcp" \
-              redis:6.0.9-alpine \
+              redis:6.2.6-alpine \
                 redis-server --requirepass redis_password
 
       - name: Download built docker image

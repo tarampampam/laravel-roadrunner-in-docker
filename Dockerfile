@@ -12,19 +12,17 @@
 #        && NODE_ENV="production" yarn run prod
 
 # build application runtime, image page: <https://hub.docker.com/_/php>
-FROM --platform=linux/amd64 php:8.0.12-alpine as runtime
+FROM php:8.1.0-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
-COPY --from=composer:2.1.9 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.1.14 /usr/bin/composer /usr/bin/composer
 
 # install roadrunner, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
-COPY --from=spiralscout/roadrunner:2.5.3 /usr/bin/rr /usr/bin/rr
+COPY --from=spiralscout/roadrunner:2.6.1 /usr/bin/rr /usr/bin/rr
 
 ENV COMPOSER_HOME="/tmp/composer"
 
 RUN set -x \
-    # fix for CVE-2021-22947
-    && apk add --latest --no-cache curl \
     # install permanent dependencies
     && apk add --no-cache \
         postgresql-libs \
@@ -53,6 +51,7 @@ RUN set -x \
     && mkdir /etc/supercronic \
     && echo '*/1 * * * * php /app/artisan schedule:run' > /etc/supercronic/laravel \
     # generate self-signed SSL key and certificate files
+    && mkdir /etc/ssl/private \
     && openssl req -x509 -nodes -days 1095 -newkey rsa:2048 \
         -subj "/C=CA/ST=QC/O=Company, Inc./CN=mydomain.com" \
         -addext "subjectAltName=DNS:mydomain.com" \

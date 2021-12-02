@@ -44,6 +44,11 @@ http:
   # This option is required.
   address: 0.0.0.0:8080
 
+  # HTTP access logs
+  #
+  # Default: false
+  access_logs: true
+
   # Maximal incoming request size in megabytes. Zero means no limit.
   #
   # Default: 0
@@ -52,7 +57,7 @@ http:
   # Middlewares for the http plugin, order is important. Allowed values is: "headers", "gzip".
   #
   # Default value: []
-  middleware: ["headers", "gzip"]
+  middleware: ["static", "headers", "gzip"]
 
   # File uploading settings.
   uploads:
