@@ -70,7 +70,7 @@ http:
   # Middlewares for the http plugin, order is important. Allowed values is: "headers", "gzip".
   #
   # Default value: []
-  middleware: ["headers", "gzip"]
+  middleware: ["static", "headers", "gzip"]
 
   # File uploading settings.
   uploads:
