@@ -5,7 +5,7 @@
     "keywords": ["laravel", "roadrunner"],
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.4.0",
