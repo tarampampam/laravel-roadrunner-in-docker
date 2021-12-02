@@ -12,7 +12,7 @@
 #        && NODE_ENV="production" yarn run prod
 
 # build application runtime, image page: <https://hub.docker.com/_/php>
-FROM --platform=linux/amd64 php:8.1.0-alpine as runtime
+FROM php:8.1.0-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
 COPY --from=composer:2.1.14 /usr/bin/composer /usr/bin/composer
@@ -23,8 +23,6 @@ COPY --from=spiralscout/roadrunner:2.6.0 /usr/bin/rr /usr/bin/rr
 ENV COMPOSER_HOME="/tmp/composer"
 
 RUN set -x \
-    # fix for CVE-2021-22947
-    && apk add --latest --no-cache curl \
     # install permanent dependencies
     && apk add --no-cache \
         postgresql-libs \
