@@ -53,6 +53,7 @@ RUN set -x \
     && mkdir /etc/supercronic \
     && echo '*/1 * * * * php /app/artisan schedule:run' > /etc/supercronic/laravel \
     # generate self-signed SSL key and certificate files
+    && mkdir /etc/ssl/private \
     && openssl req -x509 -nodes -days 1095 -newkey rsa:2048 \
         -subj "/C=CA/ST=QC/O=Company, Inc./CN=mydomain.com" \
         -addext "subjectAltName=DNS:mydomain.com" \
