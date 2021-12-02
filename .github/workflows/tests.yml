@@ -160,7 +160,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
             -e "POSTGRES_DB=forge" \
             -e "POSTGRES_USER=forge" \
             -e "POSTGRES_PASSWORD=forge" \
-              postgres:13.2-alpine
+              postgres:14.1-alpine
 
       - name: Start redis server
         run: |
