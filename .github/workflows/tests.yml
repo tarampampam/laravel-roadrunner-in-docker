@@ -116,9 +116,6 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
     runs-on: ubuntu-20.04
     needs: [docker-image]
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
       - name: Download built docker image
         uses: actions/download-artifact@v2
         with:
