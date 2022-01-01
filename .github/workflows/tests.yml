@@ -130,7 +130,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         run: docker load < docker-image.tar
 
       - name: Scan image
-        uses: anchore/scan-action@v2 # action page: <https://github.com/anchore/scan-action>
+        uses: anchore/scan-action@v3.2.0 # action page: <https://github.com/anchore/scan-action>
         with:
           image: app:local
           fail-build: true
