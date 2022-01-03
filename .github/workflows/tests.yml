@@ -128,8 +128,12 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
 
       # The following step can be removed after the <https://github.com/spiral/goridge-php/pull/8> merging
       - name: Create grype config file # docs: <https://github.com/anchore/grype#specifying-matches-to-ignore>
+        env:
+          GRYPE_FILE_PATH: .grype.yaml
         run: |
-          printf "- package:\n    location: 'vendor/spiral/goridge/examples/**'\n" > .grype.yaml
+          touch "$GRYPE_FILE_PATH"
+          echo "- package:" >> "$GRYPE_FILE_PATH"
+          echo "    location: 'vendor/spiral/goridge/examples/**'" >> "$GRYPE_FILE_PATH"
 
       - name: Scan image
         uses: anchore/scan-action@v3 # action page: <https://github.com/anchore/scan-action>
