@@ -115,10 +115,8 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
     name: Scan docker image for vulnerabilities
     runs-on: ubuntu-20.04
     needs: [docker-image]
+    continue-on-error: true
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
       - name: Download built docker image
         uses: actions/download-artifact@v2
         with:
@@ -130,11 +128,10 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         run: docker load < docker-image.tar
 
       - name: Scan image
-        uses: anchore/scan-action@v2 # action page: <https://github.com/anchore/scan-action>
+        uses: anchore/scan-action@v3 # action page: <https://github.com/anchore/scan-action>
         with:
           image: app:local
-          fail-build: true
-          severity-cutoff: high # negligible, low, medium, high or critical
+          #severity-cutoff: medium # negligible, low, medium, high or critical
 
   docker-image-e2e:
     name: Docker image End-to-End tests (SSL ${{ matrix.ssl }})
