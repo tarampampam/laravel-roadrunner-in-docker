@@ -132,7 +132,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         run: |
           echo "ignore:" > "$GRYPE_FILE_PATH"
           echo "  - package:" >> "$GRYPE_FILE_PATH"
-          echo "      location: 'vendor/spiral/goridge/examples/**'" >> "$GRYPE_FILE_PATH"
+          echo "      location: '**/spiral/goridge/examples/**'" >> "$GRYPE_FILE_PATH"
 
       - name: Scan image
         uses: anchore/scan-action@v3 # action page: <https://github.com/anchore/scan-action>
