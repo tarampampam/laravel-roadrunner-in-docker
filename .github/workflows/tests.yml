@@ -127,21 +127,21 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         run: docker load < docker-image.tar
 
       # The following step can be removed after the <https://github.com/spiral/goridge-php/pull/8> merging
-      - name: Create grype config file # docs: <https://github.com/anchore/grype#specifying-matches-to-ignore>
-        env: {GRYPE_FILE_PATH: '.grype.yaml'}
-        run: |
-          echo "ignore:" > "$GRYPE_FILE_PATH"
-          echo "  - package:" >> "$GRYPE_FILE_PATH"
-          echo "      location: '**/spiral/goridge/examples/**'" >> "$GRYPE_FILE_PATH"
+#      - name: Create grype config file # docs: <https://github.com/anchore/grype#specifying-matches-to-ignore>
+#        env: {GRYPE_FILE_PATH: '.grype.yaml'}
+#        run: |
+#          echo "ignore:" > "$GRYPE_FILE_PATH"
+#          echo "  - package:" >> "$GRYPE_FILE_PATH"
+#          echo "      location: '**/spiral/goridge/examples/**'" >> "$GRYPE_FILE_PATH"
 
       - name: Scan image
         uses: anchore/scan-action@v3 # action page: <https://github.com/anchore/scan-action>
         id: scan
         with:
           image: app:local
-          debug: true
-          fail-build: true
-          severity-cutoff: high # negligible, low, medium, high or critical
+#          debug: true
+#          fail-build: true
+          severity-cutoff: medium # negligible, low, medium, high or critical
 
       - name: Upload SARIF report
         uses: github/codeql-action/upload-sarif@v1
