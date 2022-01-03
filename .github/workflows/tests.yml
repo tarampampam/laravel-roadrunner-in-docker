@@ -116,7 +116,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
     runs-on: ubuntu-20.04
     needs: [docker-image]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2 # required for "github/codeql-action" action
 
       - name: Download built docker image
         uses: actions/download-artifact@v2
@@ -128,29 +128,17 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         working-directory: .artifact
         run: docker load < docker-image.tar
 
-      # The following step can be removed after the <https://github.com/spiral/goridge-php/pull/8> merging
-#      - name: Create grype config file # docs: <https://github.com/anchore/grype#specifying-matches-to-ignore>
-#        env: {GRYPE_FILE_PATH: '.grype.yaml'}
-#        run: |
-#          echo "ignore:" > "$GRYPE_FILE_PATH"
-#          echo "  - package:" >> "$GRYPE_FILE_PATH"
-#          echo "      location: '**/spiral/goridge/examples/**'" >> "$GRYPE_FILE_PATH"
-
       - name: Scan image
         uses: anchore/scan-action@v3 # action page: <https://github.com/anchore/scan-action>
         id: scan
         with:
           image: app:local
-#          debug: true
-#          fail-build: true
           fail-build: false
           acs-report-enable: true
-#          severity-cutoff: high # negligible, low, medium, high or critical
 
       - name: Upload SARIF report
         uses: github/codeql-action/upload-sarif@v1
-        with:
-          sarif_file: ${{ steps.scan.outputs.sarif }}
+        with: {sarif_file: "${{steps.scan.outputs.sarif}}"}
 
   docker-image-e2e:
     name: Docker image End-to-End tests (SSL ${{ matrix.ssl }})
