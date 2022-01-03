@@ -139,6 +139,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         id: scan
         with:
           image: app:local
+          debug: true
           fail-build: true
           severity-cutoff: high # negligible, low, medium, high or critical
 
