@@ -127,10 +127,6 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         working-directory: .artifact
         run: docker load < docker-image.tar
 
-      - name: Create grype config file # docs: <https://github.com/anchore/grype#specifying-matches-to-ignore>
-        run: |
-          echo -n "\nignore:\n  - vulnerability: CVE-2015-5237\n" >> .grype.yaml
-
       - name: Scan image
         uses: anchore/scan-action@v3 # action page: <https://github.com/anchore/scan-action>
         with:
