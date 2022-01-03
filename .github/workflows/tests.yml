@@ -141,7 +141,9 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
           image: app:local
 #          debug: true
 #          fail-build: true
-          severity-cutoff: medium # negligible, low, medium, high or critical
+          fail-build: false
+          acs-report-enable: true
+          severity-cutoff: high # negligible, low, medium, high or critical
 
       - name: Upload SARIF report
         uses: github/codeql-action/upload-sarif@v1
