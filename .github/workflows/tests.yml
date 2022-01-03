@@ -132,6 +132,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         with:
           image: app:local
           fail-build: true
+          debug: true
           severity-cutoff: high # negligible, low, medium, high or critical
 
       - name: Upload SARIF report
