@@ -126,13 +126,16 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         working-directory: .artifact
         run: docker load < docker-image.tar
 
+      - name: Create grype config file # docs: <https://github.com/anchore/grype#specifying-matches-to-ignore>
+        run: |
+          printf '- package:\n    location: "vendor/spiral/goridge/examples/**"\n' > .grype.yaml
+
       - name: Scan image
         uses: anchore/scan-action@v3 # action page: <https://github.com/anchore/scan-action>
         id: scan
         with:
           image: app:local
           fail-build: true
-          debug: true
           severity-cutoff: high # negligible, low, medium, high or critical
 
       - name: Upload SARIF report
