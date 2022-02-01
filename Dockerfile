@@ -12,7 +12,7 @@
 #        && NODE_ENV="production" yarn run prod
 
 # build application runtime, image page: <https://hub.docker.com/_/php>
-FROM php:8.1.1-alpine as runtime
+FROM php:8.1.2-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
 COPY --from=composer:2.1.14 /usr/bin/composer /usr/bin/composer
@@ -34,8 +34,8 @@ RUN set -x \
         openssl \
         make \
         g++ \
-    # install PHP extensions
-    && docker-php-ext-install -j$(nproc) \
+    # install PHP extensions (CFLAGS usage reason - https://bit.ly/3ALS5NU)
+    && CFLAGS="$CFLAGS -D_GNU_SOURCE" docker-php-ext-install -j$(nproc) \
         pdo_pgsql \
         sockets \
         opcache \

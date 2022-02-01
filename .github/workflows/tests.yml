@@ -111,27 +111,27 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
           path: ./docker-image.tar
           retention-days: 1
 
-  docker-image-scan:
-    name: Scan docker image for vulnerabilities
-    runs-on: ubuntu-20.04
-    needs: [docker-image]
-    continue-on-error: true
-    steps:
-      - name: Download built docker image
-        uses: actions/download-artifact@v2
-        with:
-          name: docker-image
-          path: .artifact
-
-      - name: Prepare image to run
-        working-directory: .artifact
-        run: docker load < docker-image.tar
-
-      - name: Scan image
-        uses: anchore/scan-action@v3 # action page: <https://github.com/anchore/scan-action>
-        with:
-          image: app:local
-          #severity-cutoff: medium # negligible, low, medium, high or critical
+  #docker-image-scan:
+  #  name: Scan docker image for vulnerabilities
+  #  runs-on: ubuntu-20.04
+  #  needs: [docker-image]
+  #  continue-on-error: true
+  #  steps:
+  #    - name: Download built docker image
+  #      uses: actions/download-artifact@v2
+  #      with:
+  #        name: docker-image
+  #        path: .artifact
+  #
+  #    - name: Prepare image to run
+  #      working-directory: .artifact
+  #      run: docker load < docker-image.tar
+  #
+  #    - name: Scan image
+  #      uses: anchore/scan-action@v3 # action page: <https://github.com/anchore/scan-action>
+  #      with:
+  #        image: app:local
+  #        #severity-cutoff: medium # negligible, low, medium, high or critical
 
   docker-image-e2e:
     name: Docker image End-to-End tests (SSL ${{ matrix.ssl }})
