@@ -34,8 +34,8 @@ RUN set -x \
         openssl \
         make \
         g++ \
-    # install PHP extensions
-    && docker-php-ext-install -j$(nproc) \
+    # install PHP extensions (CFLAGS usage reason - https://bit.ly/3ALS5NU)
+    && CFLAGS="$CFLAGS -D_GNU_SOURCE" docker-php-ext-install -j$(nproc) \
         pdo_pgsql \
         sockets \
         opcache \
