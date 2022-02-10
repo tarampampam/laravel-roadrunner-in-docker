@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1.2
 
 #    # Build application front-end (you can drop this block at all if you want)
-#    FROM node:15.14.0-alpine as frontend
+#    FROM node:17.4-alpine as frontend
 #    # copy all application sources
 #    COPY . /app/
 #    # use directory with application sources by default
@@ -15,10 +15,10 @@
 FROM php:8.1.2-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
-COPY --from=composer:2.1.14 /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.2.6 /usr/bin/composer /usr/bin/composer
 
 # install roadrunner, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
-COPY --from=spiralscout/roadrunner:2.6.1 /usr/bin/rr /usr/bin/rr
+COPY --from=spiralscout/roadrunner:2.7.6 /usr/bin/rr /usr/bin/rr
 
 ENV COMPOSER_HOME="/tmp/composer"
 

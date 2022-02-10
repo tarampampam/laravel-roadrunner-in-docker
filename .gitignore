@@ -15,6 +15,7 @@
 /temp
 /tmp
 coverage*
+.phpunit.result.cache
 .DS_Store
 *.cache
 
@@ -22,5 +23,6 @@ coverage*
 /storage/*.key
 /public/hot
 /public/storage
+docker-compose.override.yml
 npm-debug.log
 yarn-error.log
