@@ -40,7 +40,7 @@
             "@php artisan package:discover --ansi"
         ],
         "phpunit": "@php ./vendor/bin/phpunit -d memory_limit=512M",
-        "phpstan": "@php ./vendor/bin/phpstan analyze -c ./phpstan.neon --no-progress --ansi",
+        "phpstan": "@php -d 'opcache.enable=0' ./vendor/bin/phpstan analyze -c ./phpstan.neon --no-progress --ansi",
         "test": [
             "@phpstan",
             "@phpunit"
