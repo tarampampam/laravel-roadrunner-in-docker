@@ -5,6 +5,9 @@
 # Hint: RR will replace any config options using reference to environment variables,
 # eg.: `option_key: ${ENVIRONMENT_VARIABLE_NAME}`.
 
+# RR configuration version
+version: "2.7"
+
 # Remote Procedures Calling (docs: https://roadrunner.dev/docs/beep-beep-rpc)
 # Is used for connecting to RoadRunner server from your PHP workers.
 rpc:
