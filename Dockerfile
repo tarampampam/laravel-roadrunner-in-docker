@@ -11,14 +11,14 @@
 #        && yarn install --frozen-lockfile --no-progress --non-interactive \
 #        && NODE_ENV="production" yarn run prod
 
+# fetch the RoadRunner image, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
+FROM spiralscout/roadrunner:2.7.8 as roadrunner
+
 # build application runtime, image page: <https://hub.docker.com/_/php>
 FROM php:8.1.2-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
 COPY --from=composer:2.2.6 /usr/bin/composer /usr/bin/composer
-
-# install roadrunner, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
-COPY --from=spiralscout/roadrunner:2.7.8 /usr/bin/rr /usr/bin/rr
 
 ENV COMPOSER_HOME="/tmp/composer"
 
@@ -80,6 +80,9 @@ RUN set -x \
     && mkdir /app /var/run/rr \
     && chown -R appuser:appuser /app /var/run/rr \
     && chmod -R 777 /var/run/rr
+
+# install roadrunner
+COPY --from=roadrunner /usr/bin/rr /usr/bin/rr
 
 # use an unprivileged user by default
 USER appuser:appuser
