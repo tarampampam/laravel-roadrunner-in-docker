@@ -14,11 +14,14 @@
 # fetch the RoadRunner image, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
 FROM spiralscout/roadrunner:2.7.8 as roadrunner
 
+# fetch the Composer image, image page: <https://hub.docker.com/_/composer>
+FROM composer:2.2.6 as composer
+
 # build application runtime, image page: <https://hub.docker.com/_/php>
 FROM php:8.1.2-alpine as runtime
 
 # install composer, image page: <https://hub.docker.com/_/composer>
-COPY --from=composer:2.2.6 /usr/bin/composer /usr/bin/composer
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_HOME="/tmp/composer"
 
