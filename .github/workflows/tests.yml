@@ -19,7 +19,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
     timeout-minutes: 3
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -32,7 +32,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
     timeout-minutes: 5
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2 # Action page: <https://github.com/shivammathur/setup-php>
@@ -62,7 +62,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
     timeout-minutes: 5
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Setup PHP, with composer and extensions
         uses: shivammathur/setup-php@v2
@@ -93,7 +93,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
     timeout-minutes: 10
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Build image
         run: docker build -t app:local -f ./Dockerfile .
@@ -143,7 +143,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
         ssl: [on, off]
     steps:
       - name: Check out code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Create docker network
         run: docker network create "app-network"
