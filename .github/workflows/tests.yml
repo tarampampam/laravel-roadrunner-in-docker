@@ -12,6 +12,10 @@ on:
     paths-ignore:
       - '**.md'
 
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
 jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-actions>
   gitleaks:
     name: GitLeaks
