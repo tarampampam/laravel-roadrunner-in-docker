@@ -155,7 +155,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
             -e "POSTGRES_DB=forge" \
             -e "POSTGRES_USER=forge" \
             -e "POSTGRES_PASSWORD=forge" \
-              postgres:14.1-alpine
+              postgres:14-alpine
 
       - name: Start redis server
         run: |
@@ -163,7 +163,7 @@ jobs: # Docs: <https://help.github.com/en/articles/workflow-syntax-for-github-ac
             --network "app-network" \
             --name=redis \
             -p "6379/tcp" \
-              redis:6.2.6-alpine \
+              redis:7-alpine \
                 redis-server --requirepass redis_password
 
       - name: Download built docker image
