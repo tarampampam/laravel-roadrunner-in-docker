@@ -9,7 +9,7 @@
         "fruitcake/laravel-cors": "^3.0.0",
         "guzzlehttp/guzzle": "^7.4.5",
         "laravel/framework": "^9.22",
-        "laravel/sanctum": "^2.15",
+        "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
         "spiral/roadrunner-laravel": "^5.9"
     },
