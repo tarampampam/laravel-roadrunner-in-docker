@@ -53,7 +53,7 @@ services:
     command: supercronic /etc/supercronic/laravel # it runs artisan schedule:run
 
   postgres:
-    image: postgres:14-alpine # Image page: <https://hub.docker.com/_/postgres>
+    image: postgres:15-alpine # Image page: <https://hub.docker.com/_/postgres>
     environment:
       POSTGRES_DB: forge
       POSTGRES_USER: forge
