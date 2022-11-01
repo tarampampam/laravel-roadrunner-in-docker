@@ -15,7 +15,7 @@
 FROM spiralscout/roadrunner:2.11.3 as roadrunner
 
 # fetch the Composer image, image page: <https://hub.docker.com/_/composer>
-FROM composer:2.4.2 as composer
+FROM composer:2.4.4 as composer
 
 # build application runtime, image page: <https://hub.docker.com/_/php>
 FROM php:8.1.11-alpine as runtime
