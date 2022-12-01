@@ -12,7 +12,7 @@
 #        && NODE_ENV="production" yarn run prod
 
 # fetch the RoadRunner image, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
-FROM spiralscout/roadrunner:2.11.4 as roadrunner
+FROM spiralscout/roadrunner:2.12.0 as roadrunner
 
 # fetch the Composer image, image page: <https://hub.docker.com/_/composer>
 FROM composer:2.4.4 as composer
