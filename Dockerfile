@@ -33,6 +33,7 @@ RUN set -x \
     # install build-time dependencies
     && apk add --no-cache --virtual .build-deps \
         postgresql-dev \
+        linux-headers \
         autoconf \
         openssl \
         make \
