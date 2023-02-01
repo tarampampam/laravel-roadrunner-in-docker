@@ -19,7 +19,7 @@
         "laravel/sail": "^1.16.6",
         "mockery/mockery": "^1.5.1",
         "nunomaduro/collision": "^6.3",
-        "phpstan/phpstan": "^1.9.4",
+        "phpstan/phpstan": "^1.9.14",
         "phpunit/phpunit": "^9.5.27"
     },
     "autoload": {
