@@ -149,7 +149,7 @@ return [
         'sessions' => [
             'url'      => env('REDIS_URL'),
             'host'     => env('REDIS_HOST', '127.0.0.1'),
-            'password' => env('REDIS_PASSWORD',),
+            'password' => env('REDIS_PASSWORD'),
             'port'     => env('REDIS_PORT', 6379),
             'database' => env('REDIS_SESSIONS_DB', '2'),
         ],

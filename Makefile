@@ -28,8 +28,8 @@ test: ## Execute app tests
 
 test-cover: ## Execute app tests with coverage
 	docker-compose run --rm --user "0:0" -e 'XDEBUG_MODE=coverage' app sh -c 'echo "XDebug installing, please wait.." \
-		&& apk --no-cache add autoconf make g++ linux-headers 1>/dev/null && pecl install xdebug-3.2.1 \
-		&& docker-php-ext-enable xdebug \
+		&& apk --no-cache add autoconf make g++ linux-headers 1>/dev/null && pecl install xdebug-3.2.1 1>/dev/nul \
+		&& docker-php-ext-enable xdebug 1>/dev/nul \
 		&& su $(shell whoami) -s /bin/sh -c "composer phpunit"'
 
 up: ## Create and start containers
