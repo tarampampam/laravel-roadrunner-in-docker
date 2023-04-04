@@ -40,7 +40,7 @@ services:
       - '8080:8080/tcp'
       - '8443:8443/tcp'
     healthcheck:
-      test: ['CMD-SHELL', 'wget --spider -q "http://127.0.0.1:8082/health?plugin=http&plugin=rpc"']
+      test: ['CMD', 'wget', '--spider', '-q', 'http://127.0.0.1:8082/health?plugin=http&plugin=rpc']
       interval: 2s
       timeout: 2s
 
@@ -53,7 +53,7 @@ services:
     command: supercronic /etc/supercronic/laravel # it runs artisan schedule:run
 
   postgres:
-    image: postgres:15-alpine # Image page: <https://hub.docker.com/_/postgres>
+    image: public.ecr.aws/docker/library/postgres:15-alpine
     environment:
       POSTGRES_DB: forge
       POSTGRES_USER: forge
@@ -63,13 +63,13 @@ services:
     ports:
       - '5432/tcp'
     healthcheck: # Healthcheck docs: <https://docs.docker.com/engine/reference/builder/#healthcheck>
-      test: ['CMD-SHELL', 'pg_isready -U forge']
+      test: ['CMD', 'pg_isready', '-U', 'forge']
       interval: 2s
       timeout: 5s
       start_period: 2s
 
   redis:
-    image: redis:7-alpine # Image page: <https://hub.docker.com/_/redis>
+    image: public.ecr.aws/docker/library/redis:7-alpine
     command: redis-server --requirepass redis_password
     volumes:
       - redis-data:/data:rw
