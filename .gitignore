@@ -1,28 +1,31 @@
-# Environment deps.
-.env
-.env.backup
-
-# IDEs
+## IDEs
 /nbproject
 /.idea
 /.vscode
 
-# Vendors
+## Vendors
 /vendor
 /node_modules
 
-# Temp dirs & trash
+## Temp dirs & trash
 /temp
 /tmp
 coverage*
-.phpunit.result.cache
 .DS_Store
 *.cache
 
-# etc.
+## Credentials
+auth.json
+.env
+.env.backup
+.env.production
+
+## etc.
 /storage/*.key
 /public/hot
 /public/storage
+/public/build
+/.fleet
 docker-compose.override.yml
 npm-debug.log
 yarn-error.log

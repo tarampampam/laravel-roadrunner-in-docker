@@ -48,23 +48,27 @@ After that - build image with our application and install composer dependencies:
 ```shell
 $ make install
 ...
-  - Installing spiral/goridge (v3.0.1): Extracting archive
-  - Installing spiral/roadrunner-worker (v2.0.3): Extracting archive
-  - Installing spiral/roadrunner-http (v2.0.0): Extracting archive
-  - Installing laminas/laminas-diactoros (2.5.0): Extracting archive
-  - Installing spiral/roadrunner-laravel (v4.0.1): Extracting archive
+  - Installing spatie/laravel-ignition (2.0.0): Extracting archive
+  - Installing symfony/psr-http-message-bridge (v2.1.4): Extracting archive
+  - Installing spiral/goridge (v3.2.0): Extracting archive
+  - Installing spiral/roadrunner-worker (v2.3.0): Extracting archive
+  - Installing spiral/roadrunner-http (v2.2.0): Extracting archive
+  - Installing nyholm/psr7 (1.5.1): Extracting archive
+  - Installing spiral/roadrunner-laravel (v5.11.1): Extracting archive
 Generating optimized autoload files
 > Illuminate\Foundation\ComposerScripts::postAutoloadDump
 > @php artisan package:discover --ansi
-Discovered Package: facade/ignition
-Discovered Package: fideloper/proxy
-Discovered Package: fruitcake/laravel-cors
-Discovered Package: laravel/sail
-Discovered Package: laravel/tinker
-Discovered Package: nesbot/carbon
-Discovered Package: nunomaduro/collision
-Discovered Package: spiral/roadrunner-laravel
-Package manifest generated successfully.
+
+   INFO  Discovering packages.
+
+  laravel/sail ...................................................... DONE
+  laravel/sanctum ................................................... DONE
+  laravel/tinker .................................................... DONE
+  nesbot/carbon ..................................................... DONE
+  nunomaduro/collision .............................................. DONE
+  nunomaduro/termwind ............................................... DONE
+  spatie/laravel-ignition ........................................... DONE
+  spiral/roadrunner-laravel ......................................... DONE
 ```
 
 Make full application initialization:
@@ -72,14 +76,18 @@ Make full application initialization:
 ```shell
 $ make init
 ...
-Migration table created successfully.
-Migrating: 2014_10_12_000000_create_users_table
-Migrated:  2014_10_12_000000_create_users_table (19.31ms)
-Migrating: 2014_10_12_100000_create_password_resets_table
-Migrated:  2014_10_12_100000_create_password_resets_table (9.99ms)
-Migrating: 2019_08_19_000000_create_failed_jobs_table
-Migrated:  2019_08_19_000000_create_failed_jobs_table (14.37ms)
-Database seeding completed successfully.
+   INFO  Preparing database.
+
+  Creating migration table ..................................... 15ms DONE
+
+   INFO  Running migrations.
+
+  2014_10_12_000000_create_users_table ......................... 27ms DONE
+  2014_10_12_100000_create_password_resets_table ............... 21ms DONE
+  2019_08_19_000000_create_failed_jobs_table ................... 17ms DONE
+  2019_12_14_000001_create_personal_access_tokens_table ........ 30ms DONE
+
+   INFO  Seeding database.
 ...
 ```
 

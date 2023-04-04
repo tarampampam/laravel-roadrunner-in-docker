@@ -1,26 +1,26 @@
-# syntax=docker/dockerfile:1.2
+# syntax=docker/dockerfile:1
 
 #    # Build application front-end (you can drop this block at all if you want)
-#    FROM node:17.4-alpine as frontend
+#    FROM public.ecr.aws/docker/library/node:18-alpine as frontend
 #    # copy all application sources
 #    COPY . /app/
 #    # use directory with application sources by default
 #    WORKDIR /app
 #    # build frontend
 #    RUN set -x \
-#        && yarn install --frozen-lockfile --no-progress --non-interactive \
-#        && NODE_ENV="production" yarn run prod
+#        && npm ci --no-audit --prefer-offline \
+#        && NODE_ENV="production" npm run build
 
-# fetch the RoadRunner image, image page: <https://hub.docker.com/r/spiralscout/roadrunner>
-FROM spiralscout/roadrunner:2.12.3 as roadrunner
+# fetch the RoadRunner image
+FROM ghcr.io/roadrunner-server/roadrunner:2.12.3 as roadrunner
 
-# fetch the Composer image, image page: <https://hub.docker.com/_/composer>
-FROM composer:2.5.5 as composer
+# fetch the Composer image
+FROM public.ecr.aws/composer/composer:2.5 as composer
 
-# build application runtime, image page: <https://hub.docker.com/_/php>
-FROM php:8.2.4-alpine as runtime
+# build application runtime
+FROM public.ecr.aws/docker/library/php:8.2-alpine as runtime
 
-# install composer, image page: <https://hub.docker.com/_/composer>
+# install composer
 COPY --from=composer /usr/bin/composer /usr/bin/composer
 
 ENV COMPOSER_HOME="/tmp/composer"
@@ -48,9 +48,16 @@ RUN set -x \
         1>/dev/null \
     && pecl install -o redis 1>/dev/null \
     && echo 'extension=redis.so' > ${PHP_INI_DIR}/conf.d/redis.ini \
-    # install supercronic (for laravel task scheduling), project page: <https://github.com/aptible/supercronic>
-    && wget -q "https://github.com/aptible/supercronic/releases/download/v0.1.12/supercronic-linux-amd64" \
-         -O /usr/bin/supercronic \
+    # install supercronic (for laravel task scheduling), project page: <https://github.com/aptible/supercronic> \
+    && apkArch="$(apk --print-arch)" \
+    && case "$apkArch" in \
+        armhf) _cronic_fname='supercronic-linux-arm' ;; \
+        aarch64) _cronic_fname='supercronic-linux-arm64' ;; \
+        x86_64) _cronic_fname='supercronic-linux-amd64' ;; \
+        x86) _cronic_fname='supercronic-linux-386' ;; \
+        *) echo >&2 "error: unsupported architecture: $apkArch"; exit 1 ;; \
+    esac \
+    && wget -O /usr/bin/supercronic "https://github.com/aptible/supercronic/releases/download/v0.2.2/${_cronic_fname}" \
     && chmod +x /usr/bin/supercronic \
     && mkdir /etc/supercronic \
     && echo '*/1 * * * * php /app/artisan schedule:run' > /etc/supercronic/laravel \
