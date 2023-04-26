@@ -14,7 +14,7 @@
         "ext-pdo": "*"
     },
     "require-dev": {
-        "spatie/laravel-ignition": "^2.0",
+        "spatie/laravel-ignition": "^2.1",
         "fakerphp/faker": "^1.21",
         "laravel/pint": "^1.10",
         "laravel/sail": "^1.21.5",
