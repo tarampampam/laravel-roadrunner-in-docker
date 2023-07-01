@@ -17,7 +17,7 @@
         "spatie/laravel-ignition": "^2.2",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.10",
-        "laravel/sail": "^1.22.0",
+        "laravel/sail": "^1.23.0",
         "mockery/mockery": "^1.6.2",
         "nunomaduro/collision": "^7.5",
         "phpstan/phpstan": "^1.10.22",
