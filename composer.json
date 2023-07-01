@@ -15,7 +15,7 @@
     },
     "require-dev": {
         "spatie/laravel-ignition": "^2.2",
-        "fakerphp/faker": "^1.22",
+        "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.10",
         "laravel/sail": "^1.22.0",
         "mockery/mockery": "^1.5.1",
