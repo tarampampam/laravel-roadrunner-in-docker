@@ -15,7 +15,7 @@
 FROM ghcr.io/roadrunner-server/roadrunner:2.12.3 as roadrunner
 
 # fetch the Composer image
-FROM public.ecr.aws/composer/composer:2.5 as composer
+FROM public.ecr.aws/composer/composer:2.6 as composer
 
 # build application runtime
 FROM public.ecr.aws/docker/library/php:8.2-alpine as runtime
